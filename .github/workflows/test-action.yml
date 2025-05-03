@@ -19,3 +19,12 @@ jobs:
         uses: ./
         with:
           fix_count: 2
+
+      - name: Verify .standard_todo.yml is empty
+        shell: bash
+        run: |
+          if [ -s .standard_todo.yml ]; then
+            echo "Error: .standard_todo.yml is not empty"
+            cat .standard_todo.yml
+            exit 1
+          fi

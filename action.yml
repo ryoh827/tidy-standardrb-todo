@@ -26,7 +26,3 @@ runs:
       shell: bash
       run: |
         mv .standard_todo.yml.bak .standard_todo.yml
-    - name: Update .standard_todo.yml
-      shell: bash
-      run: |
-        bundle exec standardrb --generate-todo || true

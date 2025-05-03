@@ -1,6 +1,10 @@
 name: test standardrb-fix action
 
 on:
+  push:
+    branches:
+      - main
+  pull_request:
   workflow_dispatch:
 
 jobs:

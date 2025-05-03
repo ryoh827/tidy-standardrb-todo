@@ -19,7 +19,7 @@ runs:
     - name: Extract file names and run standardrb --fix
       shell: bash
       run: |
-        FILES=$(yq '.ignore | .[] | keys | .[]' .standard_todo.yml | shuf | head -n ${{ inputs.fix_count }} | xargs)
+        FILES=$(yq '.ignore | .[] | keys | .[]' .standard_todo.yml.bak | shuf | head -n ${{ inputs.fix_count }} | xargs)
         echo "Fixing $FILES"
         bundle exec standardrb --fix $FILES --format github --format progress
     - name: Restore .standard_todo.yml

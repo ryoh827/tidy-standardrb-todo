@@ -20,6 +20,11 @@ jobs:
         with:
           fix_count: 2
 
+      - name: update .standard_todo.yml
+        shell: bash
+        run: |
+          bundle exec standardrb --generate-todo || true
+
       - name: Verify .standard_todo.yml is empty
         shell: bash
         run: |

@@ -15,7 +15,7 @@ runs:
     - name: Backup .standard_todo.yml
       shell: bash
       run: |
-        cp .standard_todo.yml .standard_todo.yml.bak
+        mv .standard_todo.yml .standard_todo.yml.bak
     - name: Extract file names and run standardrb --fix
       shell: bash
       run: |

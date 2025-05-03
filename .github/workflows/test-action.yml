@@ -20,3 +20,7 @@ jobs:
         with:
           todo_file: .standard_todo.yml
           fix_count: 2
+      
+      - name: Check diff
+        run: |
+          git diff --exit-code

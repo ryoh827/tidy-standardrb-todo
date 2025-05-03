@@ -22,7 +22,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.4'
-      - uses: Ryoh827/tidy-standardrb-todo@v1
+      - uses: ryoh827/tidy-standardrb-todo@v1
         with:
           fix_count: 2                      # 例: 2ファイル修正
       - name: update .standard_todo.yml

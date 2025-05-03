@@ -28,8 +28,8 @@ jobs:
       - name: Verify .standard_todo.yml is empty
         shell: bash
         run: |
-          if [ -s .standard_todo.yml ]; then
-            echo "Error: .standard_todo.yml is not empty"
+          if [ "$(yq '.ignore | length' .standard_todo.yml)" != "0" ]; then
+            echo "Error: .standard_todo.yml has unexpected content"
             cat .standard_todo.yml
             exit 1
           fi

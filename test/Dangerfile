@@ -1,0 +1,6 @@
+# frozen_string_literal: true
+
+def foo
+  x = 1 # Lint/UselessAssignment
+  puts 'hello world'
+end 

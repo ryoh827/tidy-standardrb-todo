@@ -1,0 +1,24 @@
+name: 'StandardRB Fix One File'
+description: 'standardrb --fix を指定数ファイル自動で実行'
+inputs:
+  todo_file:
+    description: 'standard_todo.ymlのパス'
+    required: false
+    default: '.standard_todo.yml'
+  fix_count:
+    description: '修正するファイル数'
+    required: false
+    default: '1'
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@eaecf785f6a34567a6d97f686bbb7bccc1ac1e5c # v1.237.0
+      with:
+        bundler-cache: true
+    - name: Extract file names and run standardrb --fix
+      shell: bash
+      run: |
+        FILES=$(yq '.ignore | .[] | keys | .[]' "${{ inputs.todo_file }}" | shuf | head -n ${{ inputs.fix_count }} | xargs)
+        echo "Fixing $FILES"
+        bundle exec standardrb --fix $FILES

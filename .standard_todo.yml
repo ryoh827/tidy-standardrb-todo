@@ -1,0 +1,5 @@
+ignore:
+- test/Dangerfile:
+  - Lint/UselessAssignment
+- test/Rakefile:
+  - Style/StringLiterals 

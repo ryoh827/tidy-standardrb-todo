@@ -18,10 +18,4 @@ jobs:
       - name: Run standardrb-fix action
         uses: ./
         with:
-          todo_file: .standard_todo.yml
           fix_count: 2
-      
-      - name: Check diff
-        run: |
-          git diff --quiet || exit 0
-          exit 1

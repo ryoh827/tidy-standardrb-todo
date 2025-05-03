@@ -1,10 +1,6 @@
 name: 'StandardRB Fix One File'
 description: 'standardrb --fix を指定数ファイル自動で実行'
 inputs:
-  todo_file:
-    description: 'standard_todo.ymlのパス'
-    required: false
-    default: '.standard_todo.yml'
   fix_count:
     description: '修正するファイル数'
     required: false
@@ -16,13 +12,21 @@ runs:
       uses: ruby/setup-ruby@eaecf785f6a34567a6d97f686bbb7bccc1ac1e5c # v1.237.0
       with:
         bundler-cache: true
+    - name: Backup .standard_todo.yml
+      shell: bash
+      run: |
+        cp .standard_todo.yml .standard_todo.yml.bak
     - name: Extract file names and run standardrb --fix
       shell: bash
       run: |
-        FILES=$(yq '.ignore | .[] | keys | .[]' "${{ inputs.todo_file }}" | shuf | head -n ${{ inputs.fix_count }} | xargs)
+        FILES=$(yq '.ignore | .[] | keys | .[]' .standard_todo.yml | shuf | head -n ${{ inputs.fix_count }} | xargs)
         echo "Fixing $FILES"
-        bundle exec standardrb --fix $FILES
-    - name: Update todo_file
+        bundle exec standardrb --fix $FILES --format github --format progress
+    - name: Restore .standard_todo.yml
+      shell: bash
+      run: |
+        mv .standard_todo.yml.bak .standard_todo.yml
+    - name: Update .standard_todo.yml
       shell: bash
       run: |
         bundle exec standardrb --generate-todo

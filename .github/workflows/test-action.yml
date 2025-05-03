@@ -15,11 +15,8 @@ jobs:
         with:
           ruby-version: '3.4'
 
-      - name: Install dependencies
-        run: bundle install
-
       - name: Run standardrb-fix action
         uses: ./
         with:
           todo_file: .standard_todo.yml
-          fix_count: 1 
+          fix_count: 2

@@ -28,6 +28,5 @@ runs:
         mv .standard_todo.yml.bak .standard_todo.yml
     - name: Update .standard_todo.yml
       shell: bash
-      continue-on-error: true # standardrbの場合は終了コード1が返ってしまうので無視する
       run: |
-        bundle exec standardrb --generate-todo
+        bundle exec standardrb --generate-todo || true

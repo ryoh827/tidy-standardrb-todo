@@ -21,7 +21,7 @@ runs:
       run: |
         FILES=$(yq '.ignore | .[] | keys | .[]' .standard_todo.yml.bak | shuf | head -n ${{ inputs.fix_count }} | xargs)
         echo "Fixing $FILES"
-        bundle exec standardrb --fix $FILES --format github --format progress
+        bundle exec standardrb --fix $FILES --format progress
     - name: Restore .standard_todo.yml
       shell: bash
       run: |

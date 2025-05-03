@@ -1,4 +1,4 @@
-# StandardRB Fix One File Action
+# Tidy Standardrb TODO
 
 このアクションは、指定した数だけ `.standard_todo.yml` の ignore リストからファイルを選び、`standardrb --fix` を実行します。
 
@@ -22,7 +22,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.4'
-      - uses: Ryoh827/auto-standardrb-pr@v1
+      - uses: Ryoh827/tidy-standardrb-todo@v1
         with:
           fix_count: 2                      # 例: 2ファイル修正
       - name: update .standard_todo.yml

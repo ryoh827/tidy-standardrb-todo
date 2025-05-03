@@ -22,3 +22,7 @@ runs:
         FILES=$(yq '.ignore | .[] | keys | .[]' "${{ inputs.todo_file }}" | shuf | head -n ${{ inputs.fix_count }} | xargs)
         echo "Fixing $FILES"
         bundle exec standardrb --fix $FILES
+    - name: Update todo_file
+      shell: bash
+      run: |
+        bundle exec standardrb --generate-todo

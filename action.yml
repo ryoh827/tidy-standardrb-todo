@@ -8,10 +8,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@eaecf785f6a34567a6d97f686bbb7bccc1ac1e5c # v1.237.0
-      with:
-        bundler-cache: true
     - name: Backup .standard_todo.yml
       shell: bash
       run: |

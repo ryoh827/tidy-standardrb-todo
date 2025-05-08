@@ -1,4 +1,4 @@
-name: 'StandardRB Fix One File'
+name: 'Standardrb Fix One File'
 description: 'standardrb --fix を指定数ファイル自動で実行'
 inputs:
   fix_count:
@@ -19,8 +19,8 @@ runs:
     - name: Extract file names and run standardrb --fix
       shell: bash
       run: |
-        TARGET_FILES=$(yq '.ignore | .[] | keys | .[]' .standard_todo.yml.bak)
-        FILES=$(shuf <<< "$TARGET_FILES" | head -n ${{ inputs.fix_count }} | xargs)
+        TARGET_FILES=$(yq '.ignore | .[] | keys | .[]' .standard_todo.yml.bak | shuf)
+        FILES=$(echo "$TARGET_FILES" | head -n ${{ inputs.fix_count }})
         echo "Fixing $FILES"
         bundle exec standardrb --fix $FILES --format progress
     - name: Restore .standard_todo.yml

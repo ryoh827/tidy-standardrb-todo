@@ -20,7 +20,7 @@ runs:
       shell: bash
       run: |
         TARGET_FILES=$(yq '.ignore | .[] | keys | .[]' .standard_todo.yml.bak | shuf)
-        FILES=$(echo "$TARGET_FILES" | head -n ${{ inputs.fix_count }})
+        FILES=$(echo "$TARGET_FILES" | { head -n ${{ inputs.fix_count }}; cat >/dev/null; })
         echo "Fixing $FILES"
         bundle exec standardrb --fix $FILES --format progress
     - name: Restore .standard_todo.yml

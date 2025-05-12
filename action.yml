@@ -23,7 +23,7 @@ runs:
         FILES=$(echo "$TARGET_FILES" | { head -n ${{ inputs.fix_count }}; cat >/dev/null; })
         echo "Fixing $FILES"
         FIX_OPTION=${{ inputs.unsafe == 'true' && '--fix-unsafely' || '--fix' }}
-        bundle exec standardrb $FIX_OPTION $FILES --format progress
+        bundle exec standardrb $FIX_OPTION $FILES --format progress || true
     - name: Restore .standard_todo.yml
       shell: bash
       run: |

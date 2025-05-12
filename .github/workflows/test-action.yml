@@ -10,6 +10,9 @@ on:
 jobs:
   standardrb-fix:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        mode: [safe, unsafe]
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -25,21 +28,43 @@ jobs:
         run: |
           bundle install
 
-      - name: Run standardrb-fix action
+      - name: Run standardrb-fix action (${{ matrix.mode }} mode)
         uses: ./
         with:
           fix_count: 2
+          unsafe: ${{ matrix.mode == 'unsafe' }}
 
       - name: update .standard_todo.yml
         shell: bash
         run: |
           bundle exec standardrb --generate-todo || true
 
-      - name: Verify .standard_todo.yml is empty
+      - name: Verify .standard_todo.yml
         shell: bash
         run: |
-          if [ "$(yq '.ignore | length' .standard_todo.yml)" != "0" ]; then
-            echo "Error: .standard_todo.yml has unexpected content"
-            cat .standard_todo.yml
-            exit 1
+          if [ "${{ matrix.mode }}" = "safe" ]; then
+            # safe modeでは、safe_only.rbが修正され、他のファイルが残っているはず
+            if [ "$(yq '.ignore | length' .standard_todo.yml)" != "1" ]; then
+              echo "Error: .standard_todo.yml should have 1 files in safe mode"
+              cat .standard_todo.yml
+              exit 1
+            fi
+            if [ "$(yq '.ignore | .[] | keys | .[] | select(. == "test/safe_only.rb")' .standard_todo.yml)" != "" ]; then
+              echo "Error: test/safe_only.rb should be fixed in safe mode"
+              cat .standard_todo.yml
+              exit 1
+            fi
+            # unsafeな修正が必要なファイルが残っていることを確認
+            if [ "$(yq '.ignore | .[] | keys | .[] | select(. == "test/unsafe_only.rb")' .standard_todo.yml)" = "" ]; then
+              echo "Error: test/Dangerfile should remain in safe mode"
+              cat .standard_todo.yml
+              exit 1
+            fi
+          else
+            # unsafe modeでは、すべてのファイルが修正されているはず
+            if [ "$(yq '.ignore | length' .standard_todo.yml)" != "0" ]; then
+              echo "Error: .standard_todo.yml should be empty in unsafe mode"
+              cat .standard_todo.yml
+              exit 1
+            fi
           fi

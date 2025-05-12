@@ -5,6 +5,10 @@ inputs:
     description: '修正するファイル数'
     required: false
     default: '1'
+  unsafe:
+    description: 'unsafeな修正を許可するかどうか'
+    required: false
+    default: 'false'
 runs:
   using: 'composite'
   steps:
@@ -18,7 +22,8 @@ runs:
         TARGET_FILES=$(yq '.ignore | .[] | keys | .[]' .standard_todo.yml.bak | shuf)
         FILES=$(echo "$TARGET_FILES" | { head -n ${{ inputs.fix_count }}; cat >/dev/null; })
         echo "Fixing $FILES"
-        bundle exec standardrb --fix $FILES --format progress
+        FIX_OPTION=${{ inputs.unsafe == 'true' && '--fix-unsafely' || '--fix' }}
+        bundle exec standardrb $FIX_OPTION $FILES --format progress || true
     - name: Restore .standard_todo.yml
       shell: bash
       run: |

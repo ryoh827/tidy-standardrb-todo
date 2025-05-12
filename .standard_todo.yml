@@ -2,9 +2,7 @@
 # Remove from this list as you refactor files.
 ---
 ignore:
-- test/Dangerfile:
-  - Lint/UselessAssignment
+- test/safe_only.rb:
   - Style/StringLiterals
-  - Layout/TrailingWhitespace
-- test/Rakefile:
-  - Layout/TrailingWhitespace
+- test/unsafe_only.rb:
+  - Style/TrailingCommaInBlockArgs

@@ -10,6 +10,7 @@
 
 ## 入力パラメータ
 - `fix_count` (任意): 修正するファイル数（デフォルト: 1）
+- `unsafe` (任意): unsafeな修正を許可するかどうか（デフォルト: false）
 
 ## 使い方（ワークフロー例）
 
@@ -25,6 +26,7 @@ jobs:
       - uses: ryoh827/tidy-standardrb-todo@v1
         with:
           fix_count: 2                      # 例: 2ファイル修正
+          unsafe: true                      # 例: unsafeな修正を許可
       - name: update .standard_todo.yml
         run: |
           bundle exec standardrb --generate-todo || true
